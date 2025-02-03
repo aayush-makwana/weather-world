@@ -7,15 +7,37 @@ import WeatherDetails from '@/components/weather-details'
 import WeatherForecast from '@/components/weather-forecast'
 import { useForecastQuery, useWeatherQuery } from '@/hooks/use-weather'
 import { AlertTriangle } from 'lucide-react'
-import { useParams, useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { Button } from '@/components/ui/button'
 
 const CityPage = () => {
   const [searchParams] = useSearchParams()
   const params = useParams()
-  const lat = parseFloat(searchParams.get('lat') || '0')
-  const lon = parseFloat(searchParams.get('lon') || '0')
+  const lat = searchParams.get('lat')
+  const lon = searchParams.get('lon')
 
-  const coordinates = { lat, lon }
+  const navigate = useNavigate()
+
+  // Redirect to home if coordinates are missing or invalid
+  if (!lat || !lon || isNaN(parseFloat(lat)) || isNaN(parseFloat(lon))) {
+    return (
+      <Alert variant='destructive'>
+        <AlertTriangle className='h-4 w-4' />
+        <AlertTitle>Invalid Location</AlertTitle>
+        <AlertDescription className='flex flex-col gap-4'>
+          <p>The location coordinates are missing or invalid.</p>
+          <Button variant='outline' className='w-fit' onClick={() => navigate('/')}>
+            Go to Home
+          </Button>
+        </AlertDescription>
+      </Alert>
+    )
+  }
+
+  const coordinates = {
+    lat: parseFloat(lat),
+    lon: parseFloat(lon)
+  }
 
   const weatherQuery = useWeatherQuery(coordinates)
   const forecastQuery = useForecastQuery(coordinates)
