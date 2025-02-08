@@ -5,7 +5,8 @@ import CitySearch from './city-search'
 
 const Header = () => {
   const { theme, setTheme } = useTheme()
-  const isDark = theme === 'dark'
+
+  const isDark = theme === 'system' ? window.matchMedia('(prefers-color-scheme: dark)').matches : theme === 'dark'
 
   return (
     <header className='sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur py-2 supports-[backdrop-filter]:bg-background/60'>

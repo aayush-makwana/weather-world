@@ -32,7 +32,7 @@ const CurrentWeather = ({ data, locationName }: CurrentWeatherProps) => {
                 <p className='text-sm text-muted-foreground'>{locationName?.country}</p>
               </div>
             )}
-            <div className='flex items-center gap-4'>
+            <div className='flex items-center gap-6'>
               <p className='text-7xl font-bold tracking-tighter'>{formatTemp(temp)}</p>
               <div className='space-y-1'>
                 <p className='text-sm font-medium text-muted-foreground'>Feels like {formatTemp(feels_like)}</p>
